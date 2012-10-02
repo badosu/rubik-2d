@@ -90,11 +90,22 @@ int *blank_position(int **board) {
   return position;
 }
 
-int **tap(int **board, int i, int j) {
+int **tap(int **board, char* position) {
+  int i,j;
   int *blank;
-  int **tapped_board = copy_board(board);
-  blank = blank_position(tapped_board);
+  int **tapped_board;
+  blank = blank_position(board);
+
+  i = blank[0]+(position[0]-'0'-1);
+  j = blank[1]+(position[1]-'0'-1);
+
+  if (board[i][j] < 0) {
+    return NULL;
+  }
+
+  tapped_board = copy_board(board);
   board_swap(tapped_board, blank[0], blank[1], i, j);
+
   free(blank);
   return tapped_board;
 }
