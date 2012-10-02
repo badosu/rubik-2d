@@ -6,11 +6,9 @@ A simple 2-dimensional rubik cube solver, implemented in C and ncurses.
 Install
 -------
 
-```sh
     git clone https://github.com/badosu/rubik-2d.git
     cd rubik-2d
     make compile
-```
 
 Usage
 -----
