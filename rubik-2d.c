@@ -14,6 +14,10 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  current_heuristic = heuristics[SIMPLE_HEURISTIC];
+
+  calculate(initial_board);
+
   initialize_window();
 
   print_board(initial_board);
@@ -52,38 +56,3 @@ void initialize_window() {
   getch();
   clear();
 }
-
-/* void getpositions(char chars[]) {
-  item * curr, * head;
-  head = NULL;
-  for(i=0;i<strlen(chars);i++) {
-    curr = malloc(sizeof(item));
-    curr->val = chars[i];
-    curr->next  = head;
-    head = curr; */
-
-
-/*item *step(int *initial_board, heuristic heuristic) {
-  int *neighbours[4];
-  int i = 0;
-
-  get_neighbours(board, neighbours);
-
-  while(neighbours[i] != NULL) {
-    print_board(neighbours[i]);
-    i++;
-  }
-  item *board;
-
-  board = malloc(sizeof(item));
-  board->val = initial_board;
-  board->cost = heuristic(initial_board);
-
-  return board->val;
-}
-
-void get_neighbours(item *board, int *neighbours[4]) {
-  neighbours[0] = board->val;
-}
-
-*/

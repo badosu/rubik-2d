@@ -10,3 +10,5 @@
 void initialize_window();
 typedef int (*command)(void);
 command commands[1];
+
+heuristic current_heuristic;
