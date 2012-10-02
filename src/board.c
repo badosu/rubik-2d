@@ -70,7 +70,7 @@ int **get_board(char *filename) {
   return board;
 }
 
-int *blank_position(int **board) {
+int *blank_position_of(int **board) {
   int i,j;
   int *position = malloc(2*sizeof(int));
   for (i=1; i<COLS+1; i++) {
@@ -85,14 +85,14 @@ int *blank_position(int **board) {
   return position;
 }
 
-int **tap(int **board, char* position) {
+int **tap(int **board, char* direction) {
   int **tapped_board;
   int old_block, new_block;
 
-  int *blank = blank_position(board);
+  int *blank = blank_position_of(board);
 
-  int i = blank[0]+(position[0]-'0'-1);
-  int j = blank[1]+(position[1]-'0'-1);
+  int i = blank[0]+(direction[0]-'0'-1);
+  int j = blank[1]+(direction[1]-'0'-1);
 
   if (board[i][j] < 0) {
     return NULL;
