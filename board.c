@@ -90,11 +90,13 @@ int *blank_position(int **board) {
   return position;
 }
 
-void tap(int **board, int i, int j) {
+int **tap(int **board, int i, int j) {
   int *blank;
-  blank = blank_position(board);
-  board_swap(board, blank[0], blank[1], i, j);
+  int **tapped_board = copy_board(board);
+  blank = blank_position(tapped_board);
+  board_swap(tapped_board, blank[0], blank[1], i, j);
   free(blank);
+  return tapped_board;
 }
 
 void board_swap(int **board, int i, int j, int new_i, int new_j) {
@@ -130,5 +132,16 @@ void print_offset(int offset) {
   int i;
   for(i=0; i < offset; i++) {
     printw("%c", ' ');
+  }
+}
+
+void print_neighbours(int **board) {
+  int ***neighbours = get_neighbours(board);
+  int i;
+
+  for (i=0; i<4; i++) {
+    if (neighbours[i] != NULL) {
+      print_board(neighbours[i], "Neighbour");
+    }
   }
 }

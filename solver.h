@@ -5,8 +5,9 @@ struct board_node {
 
 typedef struct board_node node;
 
-
 heuristic current_heuristic;
 
 int cost_of(int **board);
 void calculate(int **board);
+
+int ***get_neighbours(int **board);

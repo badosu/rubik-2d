@@ -1,38 +1,37 @@
 #include "rubik-2d.h"
 
-/* void getpositions(char chars[]) {
-  item * curr, * head;
-  head = NULL;
-  for(i=0;i<strlen(chars);i++) {
-    curr = malloc(sizeof(item));
-    curr->val = chars[i];
-    curr->next  = head;
-    head = curr; */
+int ***get_neighbours(int **board) {
+  int *blank = blank_position(board);
+  int ***neighbours = malloc(4*sizeof(int**));
+  int i=0;
 
-
-/*item *step(int *initial_board, heuristic heuristic) {
-  int *neighbours[4];
-  int i = 0;
-
-  get_neighbours(board, neighbours);
-
-  while(neighbours[i] != NULL) {
-    print_board(neighbours[i]);
+  if (board[blank[0]+1][blank[1]] >= 0) {
+    neighbours[i] = tap(board, blank[0]+1, blank[1]);
+    calculate(neighbours[i]);
     i++;
   }
-  item *board;
 
-  board = malloc(sizeof(item));
-  board->val = initial_board;
-  board->cost = heuristic(initial_board);
+  if (board[blank[0]-1][blank[1]] >= 0) {
+    neighbours[i] = tap(board, blank[0]-1, blank[1]);
+    calculate(neighbours[i]);
+    i++;
+  }
 
-  return board->val;
+  if (board[blank[0]][blank[1]+1] >= 0) {
+    neighbours[i] = tap(board, blank[0], blank[1]+1);
+    calculate(neighbours[i]);
+    i++;
+  }
+
+  if (board[blank[0]][blank[1]-1] >= 0) {
+    neighbours[i] = tap(board, blank[0], blank[1]-1);
+    calculate(neighbours[i]);
+  }
+
+  free(blank);
+
+  return neighbours;
 }
-
-*/
-
-/* int ***get_neighbours(item *board) {
-} */
 
 int cost_of(int **board) {
   return board[0][0];

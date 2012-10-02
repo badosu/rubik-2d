@@ -21,6 +21,8 @@ int main(int argc, char *argv[]) {
   initialize_window();
 
   print_board(initial_board, "Current");
+  print_neighbours(initial_board);
+
   while(1) {
     command = getch();
     clear();
@@ -30,6 +32,7 @@ int main(int argc, char *argv[]) {
     }
     else if (command == NEXT) {
       print_board(initial_board, "Current");
+      print_neighbours(initial_board);
     }
     else {
       printw("   Press n to iterate, q to quit\n");
