@@ -104,11 +104,11 @@ void board_swap(int **board, int i, int j, int new_i, int new_j) {
   board[new_i][new_j] = old_block;
 }
 
-void print_board(int **board) {
+void print_board(int **board, char *head) {
   int i, j;
   int offset = 3;
 
-  printw("\n=============\nCurrent State\n\n");
+  printw("\n==========\n %s\n", head);
   print_offset(offset);
   printw("---");
 
@@ -122,9 +122,7 @@ void print_board(int **board) {
   printw("%c", '\n');
   print_offset(offset);
   printw("---\n");
-  print_offset(offset);
-  printw("Cost: %i\n", cost_of(board));
-  print_offset(offset);
+  printw(" Cost: %i\n", cost_of(board));
   printw("----------\n");
 }
 
