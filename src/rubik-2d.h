@@ -3,6 +3,7 @@
 #include "board.h"
 #include "heuristic.h"
 #include "solver.h"
+#include "printing.h"
 
 #define QUIT 'q'
 #define NEXT 'n'

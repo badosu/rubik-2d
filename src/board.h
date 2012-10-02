@@ -6,11 +6,6 @@
 #define RIGHT "12"
 
 int parse_char(char block);
-int parse_block(int number);
-
-void print_offset(int offset);
-void print_board(int **board, char *head);
-void print_neighbours(int **board);
 
 int **get_board(char *filename);
 int **init_board();
