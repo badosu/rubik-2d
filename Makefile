@@ -16,8 +16,5 @@ clean:
 compile: $(SRC)
 	gcc -o rubik-2d $^ $(CFLAGS) $(LIBS)
 
-%.o : $(SRC)
-	gcc -o $@ $^ $(CFLAGS) $(LIBS)
-
 check: clean compile
 	./rubik-2d
