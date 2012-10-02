@@ -6,8 +6,10 @@ int **init_board() {
 
   board = malloc((COLS+2) * sizeof(int*));
 
-  for(i=0; i<COLS+2; i++) {
-    board[i] = malloc((COLS+2) * sizeof(int));
+  board[0] = malloc((COLS+2) * (COLS+2) * sizeof(int));
+
+  for(i=1; i<COLS+2; i++) {
+    board[i] = board[0]+i*(COLS+2);
   }
 
   for (i=0; i<COLS+2; i++) {
@@ -25,10 +27,7 @@ int parse_char(char block) {
 }
 
 void free_board(int **board) {
-  int i;
-  for(i=0; i<COLS+2; i++) {
-    free(board[i]);
-  }
+  free(board[0]);
   free(board);
 }
 
