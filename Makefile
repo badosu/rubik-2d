@@ -1,13 +1,9 @@
 LIBS = -lncurses
-CFLAGS = -g        \
-				 -ansi     \
-				 -pedantic \
-				 -Wall
-SRC = rubik-2d.c  \
-			board.c     \
-			solver.c    \
-			heuristic.c
-
+CFLAGS =	-g        \
+			-ansi     \
+			-pedantic \
+			-Wall
+SRC = $(wildcard src/*.c)
 all: clean compile
 
 clean:
