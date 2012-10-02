@@ -79,14 +79,13 @@ int *blank_position(int **board) {
   int *position = malloc(2*sizeof(int));
   for (i=1; i<COLS+1; i++) {
     for (j=1; j<COLS+1; j++) {
-      if (board[i][j]==0) {
+      if (board[i][j] == 0) {
         position[0] = i;
         position[1] = j;
-        break;
+        return position;
       }
     }
   }
-
   return position;
 }
 
