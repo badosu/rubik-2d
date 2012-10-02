@@ -5,6 +5,7 @@ CFLAGS = -g        \
 				 -Wall
 SRC = rubik-2d.c  \
 			board.c     \
+			solver.c    \
 			heuristic.c
 
 all: clean compile
