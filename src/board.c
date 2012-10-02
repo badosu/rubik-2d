@@ -86,28 +86,27 @@ int *blank_position(int **board) {
 }
 
 int **tap(int **board, char* position) {
-  int i,j;
-  int *blank;
   int **tapped_board;
-  blank = blank_position(board);
+  int old_block, new_block;
 
-  i = blank[0]+(position[0]-'0'-1);
-  j = blank[1]+(position[1]-'0'-1);
+  int *blank = blank_position(board);
+
+  int i = blank[0]+(position[0]-'0'-1);
+  int j = blank[1]+(position[1]-'0'-1);
 
   if (board[i][j] < 0) {
     return NULL;
   }
 
   tapped_board = copy_board(board);
-  board_swap(tapped_board, blank[0], blank[1], i, j);
+
+  old_block = tapped_board[i][j];
+  new_block = tapped_board[blank[0]][blank[1]];
+
+  tapped_board[i][j] = new_block;
+  tapped_board[blank[0]][blank[1]] = old_block;
 
   free(blank);
-  return tapped_board;
-}
 
-void board_swap(int **board, int i, int j, int new_i, int new_j) {
-  int old_block = board[i][j];
-  int new_block = board[new_i][new_j];
-  board[i][j] = new_block;
-  board[new_i][new_j] = old_block;
+  return tapped_board;
 }
