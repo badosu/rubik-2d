@@ -152,6 +152,7 @@ void print_neighbours(int **board) {
 
   for (i=0; i<4; i++) {
     if (neighbours[i] != NULL) {
+      calculate(neighbours[i]);
       print_board(neighbours[i], "Neighbour");
     }
   }
