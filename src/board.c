@@ -154,6 +154,9 @@ void print_neighbours(int **board) {
     if (neighbours[i] != NULL) {
       calculate(neighbours[i]);
       print_board(neighbours[i], "Neighbour");
+      free_board(neighbours[i]);
     }
   }
+
+  free(neighbours);
 }
