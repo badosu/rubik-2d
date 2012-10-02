@@ -92,6 +92,10 @@ void print_board(int **board) {
   printw("%c", '\n');
   print_offset(offset);
   printw("---\n");
+  print_offset(offset);
+  printw("Cost: %i\n", cost_of(board));
+  print_offset(offset);
+  printw("----------\n");
 }
 
 void print_offset(int offset) {
