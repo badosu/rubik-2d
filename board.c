@@ -74,6 +74,36 @@ int **get_board(char *filename) {
   return board;
 }
 
+int *blank_position(int **board) {
+  int i,j;
+  int *position = malloc(2*sizeof(int));
+  for (i=1; i<COLS+1; i++) {
+    for (j=1; j<COLS+1; j++) {
+      if (board[i][j]==0) {
+        position[0] = i;
+        position[1] = j;
+        break;
+      }
+    }
+  }
+
+  return position;
+}
+
+void tap(int **board, int i, int j) {
+  int *blank;
+  blank = blank_position(board);
+  board_swap(board, blank[0], blank[1], i, j);
+  free(blank);
+}
+
+void board_swap(int **board, int i, int j, int new_i, int new_j) {
+  int old_block = board[i][j];
+  int new_block = board[new_i][new_j];
+  board[i][j] = new_block;
+  board[new_i][new_j] = old_block;
+}
+
 void print_board(int **board) {
   int i, j;
   int offset = 3;
