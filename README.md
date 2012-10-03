@@ -13,7 +13,13 @@ Install
 Usage
 -----
 
-Edit the `initial_state` file in the format (excluding the indentation spaces):
+Edit `initial_state` following in the format:
+
+     15
+    342
+    687
+
+Edit `goal_state` following the format:
 
      12
     345

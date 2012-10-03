@@ -2,15 +2,23 @@
 
 int main(int argc, char *argv[]) {
   int **initial_board;
-  char *filename = "initial_state";
+  char *initial_file = "initial_state";
+  char *goal_file =    "goal_state";
   int command;
 
   initialize_heuristics();
 
-  initial_board = get_board(filename);
+  initial_board = get_board(initial_file);
 
   if (initial_board == NULL) {
-    printw("Could'nt read initial_status");
+    printw("Could'nt read %s", initial_file);
+    return 1;
+  }
+
+  goal_board = get_board(goal_file);
+
+  if (goal_board == NULL) {
+    printw("Could'nt read %s", goal_file);
     return 1;
   }
 
