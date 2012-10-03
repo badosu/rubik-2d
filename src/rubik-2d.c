@@ -4,10 +4,7 @@ int main(int argc, char *argv[]) {
   int command;
   char *initial_file = "initial_state";
   char *goal_file =    "goal_state";
-
-  initialize_heuristics();
-
-  initial_board = get_board(initial_file);
+  int **initial_board = get_board(initial_file);
 
   if (initial_board == NULL) {
     printw("Could'nt read %s", initial_file);
@@ -21,12 +18,17 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  current_heuristic = heuristics[SIMPLE_HEURISTIC];
-
   initialize_window();
 
-  print_board(initial_board, "Current");
-  print_neighbours(initial_board);
+  initialize_heuristics();
+  current_heuristic = heuristics[SIMPLE_HEURISTIC];
+
+  initial_node = malloc(sizeof(board_node));
+  initial_node->exhausted = 0;
+  initial_node->board = initial_board;
+  current_heuristic(initial_node);
+
+  print_node(initial_node);
 
   while(1) {
     command = getch();
@@ -36,8 +38,7 @@ int main(int argc, char *argv[]) {
       break;
     }
     else if (command == NEXT) {
-      print_board(initial_board, "Current");
-      print_neighbours(initial_board);
+      step_into(initial_node);
     }
     else {
       printw("   Press n to iterate, q to quit\n");

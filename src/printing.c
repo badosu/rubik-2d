@@ -5,8 +5,6 @@ void print_board(int **board, char *head) {
   int i, j;
   int offset = 3;
 
-  board[0][0] = current_heuristic(board);
-
   printw("\n==========\n %s\n", head);
   print_offset(offset);
   printw("---");
@@ -23,6 +21,10 @@ void print_board(int **board, char *head) {
   printw("---\n");
   printw(" Cost: %i\n", cost_of(board));
   printw("----------\n");
+}
+
+void print_node(board_node *node) {
+  print_board(node->board, "Current");
 }
 
 void print_offset(int offset) {

@@ -5,12 +5,12 @@ void initialize_heuristics() {
 }
 
 int simple_distance(int **board, int **other_board);
-int* simple_position(int value, int **other_board);
 
-int simple_heuristic(int **board) {
-  int distance = simple_distance(initial_board, board);
-  int cost = simple_distance(board, goal_board);
-  return distance + cost;
+int simple_heuristic(board_node *node) {
+  int path = simple_distance(initial_node->board, node->board);
+  node->distance = simple_distance(node->board, goal_board);
+  node->cost = node->distance + path;
+  return node->cost;
 }
 
 int simple_distance(int **board, int **other_board) {
