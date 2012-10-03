@@ -15,7 +15,3 @@ int ***get_neighbours(int **board) {
 int cost_of(int **board) {
   return board[0][0];
 }
-
-void calculate(int **board) {
-  board[0][0] = current_heuristic(board);
-}

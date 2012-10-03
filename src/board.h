@@ -12,6 +12,6 @@ int **init_board();
 int **copy_board(int **board);
 int **tap(int **board, char* direction);
 
-int *blank_position_of(int **board);
+int *get_position_of(int **board, int value);
 
 void free_board(int **board);

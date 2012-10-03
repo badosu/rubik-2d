@@ -13,4 +13,5 @@ void initialize_window();
 typedef int (*command)(void);
 command commands[1];
 
+int **initial_board;
 int **goal_board;

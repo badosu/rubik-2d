@@ -1,8 +1,11 @@
 #include "rubik-2d.h"
 
 void print_board(int **board, char *head) {
+
   int i, j;
   int offset = 3;
+
+  board[0][0] = current_heuristic(board);
 
   printw("\n==========\n %s\n", head);
   print_offset(offset);
@@ -35,7 +38,6 @@ void print_neighbours(int **board) {
 
   for (i=0; i<4; i++) {
     if (neighbours[i] != NULL) {
-      calculate(neighbours[i]);
       print_board(neighbours[i], "Neighbour");
       free_board(neighbours[i]);
     }

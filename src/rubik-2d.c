@@ -1,10 +1,9 @@
 #include "rubik-2d.h"
 
 int main(int argc, char *argv[]) {
-  int **initial_board;
+  int command;
   char *initial_file = "initial_state";
   char *goal_file =    "goal_state";
-  int command;
 
   initialize_heuristics();
 
@@ -23,8 +22,6 @@ int main(int argc, char *argv[]) {
   }
 
   current_heuristic = heuristics[SIMPLE_HEURISTIC];
-
-  calculate(initial_board);
 
   initialize_window();
 
