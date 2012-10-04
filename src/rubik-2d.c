@@ -1,7 +1,6 @@
 #include "rubik-2d.h"
 
 int main(int argc, char *argv[]) {
-  int command;
   char *initial_file = "initial_state";
   char *goal_file =    "goal_state";
   int **initial_board = get_board(initial_file);
@@ -28,22 +27,7 @@ int main(int argc, char *argv[]) {
   initial_node->board = initial_board;
   current_heuristic(initial_node);
 
-  print_node(initial_node);
-
-  while(1) {
-    command = getch();
-    clear();
-    if (command == QUIT) {
-      printw("\nPress any key to quit");
-      break;
-    }
-    else if (command == NEXT) {
-      step_into(initial_node);
-    }
-    else {
-      printw("   Press n to iterate, q to quit\n");
-    }
-  }
+  step_into(initial_node);
 
   free_board(initial_board);
 

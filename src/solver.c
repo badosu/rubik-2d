@@ -23,7 +23,7 @@ void step_into(board_node *current_node) {
   int ***neighbours = get_neighbours(current_node->board);
   board_node **nodes = malloc(4*sizeof(board_node*));
 
-  print_node(current_node);
+  print_node(current_node, "Current");
 
   for(i=0; i<4; i++) {
     int **neighbour = neighbours[i];
@@ -34,11 +34,27 @@ void step_into(board_node *current_node) {
     nodes[i]->board = neighbour;
     nodes[i]->exhausted = 0;
     current_heuristic(nodes[i]);
+    print_node(nodes[i], "Neighbour");
+    refresh();
+  }
+
+  while(1) {
+    command = getch();
+    clear();
+    if (command == QUIT) {
+      printw("\nPress any key to quit");
+      return;
+    }
+    else if (command == NEXT) {
+      break;
+    }
+
+    printw("   Press n to iterate, q to quit\n");
   }
 
   best_node = best_node_of(nodes);
 
-  while (best_node != NULL) {
+  while (command != QUIT) {
     best_node = best_node_of(nodes);
     step_into(best_node);
     if (best_node->distance == 0) {
@@ -59,10 +75,11 @@ board_node* best_node_of(board_node **nodes) {
   int i;
   board_node *node = NULL;
   for(i=0; i<4; i++) {
-    if (node == NULL || (nodes[i] != NULL
+    if (node == NULL || (nodes[i] != NULL && node->exhausted == 0
         && nodes[i]->cost < node->cost)) {
       node = nodes[i];
     }
   }
+  node->exhausted = 1;
   return node;
 }

@@ -1,7 +1,5 @@
 int parse_block(int number);
 
 void print_offset(int offset);
-void print_board(int **board, char *head);
-void print_neighbours(int **board);
 
-void print_node(board_node *node);
+void print_node(board_node *node, char *head);

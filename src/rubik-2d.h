@@ -6,10 +6,9 @@
 
 void initialize_window();
 
-typedef int (*command)(void);
-command commands[1];
-
 int **goal_board;
+
+int command;
 
 typedef struct board_node board_node;
 typedef struct board_list list;

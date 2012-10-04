@@ -1,7 +1,6 @@
 #include "rubik-2d.h"
 
-void print_board(int **board, char *head) {
-
+void print_node(board_node *node, char *head) {
   int i, j;
   int offset = 3;
 
@@ -13,18 +12,14 @@ void print_board(int **board, char *head) {
     printw("%c", '\n');
     print_offset(offset);
     for (j=1; j < COLS+1; j++) {
-      printw("%c", parse_block(board[i][j]));
+      printw("%c", parse_block(node->board[i][j]));
     }
   }
   printw("%c", '\n');
   print_offset(offset);
   printw("---\n");
-  printw(" Cost: %i\n", cost_of(board));
+  printw(" Cost: %i\n", node->cost);
   printw("----------\n");
-}
-
-void print_node(board_node *node) {
-  print_board(node->board, "Current");
 }
 
 void print_offset(int offset) {
@@ -32,20 +27,6 @@ void print_offset(int offset) {
   for(i=0; i < offset; i++) {
     printw("%c", ' ');
   }
-}
-
-void print_neighbours(int **board) {
-  int ***neighbours = get_neighbours(board);
-  int i;
-
-  for (i=0; i<4; i++) {
-    if (neighbours[i] != NULL) {
-      print_board(neighbours[i], "Neighbour");
-      free_board(neighbours[i]);
-    }
-  }
-
-  free(neighbours);
 }
 
 int parse_block(int number) {
