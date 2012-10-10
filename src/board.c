@@ -1,5 +1,19 @@
 #include "rubik-2d.h"
 
+int board_equals(int **board, int **other_board) {
+  int i,j;
+
+  for(i=1; i<COLS+2; i++) {
+    for(j=1; j<COLS+2; j++) {
+      if (board[i][j] != other_board[i][j]) {
+        return TRUE;
+      }
+    }
+  }
+
+  return FALSE;
+}
+
 int **init_board() {
   int i;
   int **board;
@@ -84,8 +98,22 @@ int *get_position_of(int **board, int value) {
   return position;
 }
 
-int **tap(int **board, char* direction) {
+int frontier_contains(board_node *node) {
+  list_rewind(frontier);
+
+  while(frontier->next != NULL) {
+    frontier = frontier->next;
+    if (board_equals(frontier->node->board, node->board)) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+board_node *tap(board_node *node, char* direction) {
   int **tapped_board;
+  int **board = node->board;
   int old_block, new_block;
 
   int *blank = get_position_of(board, 0);
@@ -93,7 +121,7 @@ int **tap(int **board, char* direction) {
   int i = blank[0]+(direction[0]-'0'-1);
   int j = blank[1]+(direction[1]-'0'-1);
 
-  if (board[i][j] < 0) {
+  if (board[i][j] < 0 || frontier_contains(node)) {
     return NULL;
   }
 
@@ -107,5 +135,5 @@ int **tap(int **board, char* direction) {
 
   free(blank);
 
-  return tapped_board;
+  return init_node(tapped_board);
 }

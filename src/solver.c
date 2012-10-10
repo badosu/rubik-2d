@@ -1,9 +1,9 @@
 #include "rubik-2d.h"
 
-int ***get_neighbours(int **board) {
+board_node **get_neighbours(board_node *board) {
   int i;
   char *DIRECTIONS[4] = {UP, DOWN, LEFT, RIGHT};
-  int ***neighbours = malloc(4*sizeof(int**));
+  board_node **neighbours = malloc(4*sizeof(board_node*));
 
   for(i=0; i<4; i++) {
     neighbours[i] = tap(board, DIRECTIONS[i]);
@@ -14,17 +14,20 @@ int ***get_neighbours(int **board) {
 
 void expand_frontier() {
   int i;
-  int ***neighbours = get_neighbours(head->node->board);
+  board_node **neighbours;
+
+  list_rewind(frontier);
+
+  neighbours = get_neighbours(frontier->node);
 
   for(i=0; i<4; i++) {
-    board_node *neighbour;
+    board_node *neighbour = neighbours[i];
 
-    if (neighbours[i] == NULL) {
-      free(neighbours[i]);
+    if (neighbour == NULL) {
+      free(neighbour);
       continue;
     }
 
-    neighbour = init_node(neighbours[i]);
     frontier_push(neighbour);
   }
 }
@@ -32,21 +35,29 @@ void expand_frontier() {
 board_node *init_node(int **board) {
   board_node *node = malloc(sizeof(board_node*));
   node = malloc(sizeof(board_node));
-  node->board = board;
+  node->board = copy_board(board);
   node->exhausted = 0;
   current_heuristic(node);
   return node;
 }
 
 void frontier_pop() {
+  list_rewind(frontier);
+  head = clone_list(frontier);
+  frontier->parent = NULL;
+  frontier = frontier->next;
+}
+
+list *clone_list(list *o_list) {
+  list *cloned_list = malloc(sizeof(list*));
+  cloned_list->node = o_list->node;
+  cloned_list->parent = o_list->parent;
+  cloned_list->next = o_list->next;
+  return cloned_list;
 }
 
 void frontier_push(board_node *node) {
   list *new_item;
-
-  while(frontier->next != NULL && frontier->next->node->cost < node->cost) {
-    frontier = frontier->next;
-  }
 
   new_item = malloc(sizeof(list));
   new_item->node = node;
@@ -68,12 +79,26 @@ void print_path() {
     head = head->next;
     print_node(head->node, "Step");
   }
+
+  print_node(frontier->node, "Current State");
 }
 
-void list_rewind(list *list) {
+int list_fforward(list *list) {
+  int i = 0;
+  while(list->next != NULL) {
+    list = list->next;
+    i++;
+  }
+  return i;
+}
+
+int list_rewind(list *list) {
+  int i = 0;
   while(list->parent != NULL) {
     list = list->parent;
+    i++;
   }
+  return i;
 }
 
 void step() {

@@ -62,6 +62,7 @@ void initialize_window() {
   raw();
   keypad(stdscr, TRUE);
   noecho();
+  scrollok(stdscr, TRUE);
 
   printw("WELCOME TO BADOSU's rubik-2d solver!\n");
   printw("   Press n to iterate, q to quit\n");

@@ -11,7 +11,7 @@ struct board_list {
   struct board_list *next;
 };
 
-int ***get_neighbours(int **board);
+board_node **get_neighbours(board_node *board);
 
 void step();
 
@@ -27,4 +27,7 @@ list *head;
 
 list *frontier;
 
-void list_rewind(list *list);
+int list_rewind(list *list);
+int list_fforward(list *list);
+
+list *clone_list(list *list);
