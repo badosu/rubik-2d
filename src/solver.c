@@ -42,9 +42,38 @@ void frontier_pop() {
 }
 
 void frontier_push(board_node *node) {
+  list *new_item;
+
+  while(frontier->next != NULL && frontier->next->node->cost < node->cost) {
+    frontier = frontier->next;
+  }
+
+  new_item = malloc(sizeof(list));
+  new_item->node = node;
+  new_item->parent = frontier;
+  new_item->next = frontier->next;
+
+  if (frontier->next != NULL) {
+    frontier->next->parent = new_item;
+  }
+  frontier->next = new_item;
+
+  list_rewind(frontier);
 }
 
 void print_path() {
+  list_rewind(head);
+  print_node(head->node, "Initial State");
+  while (head->next != NULL) {
+    head = head->next;
+    print_node(head->node, "Step");
+  }
+}
+
+void list_rewind(list *list) {
+  while(list->parent != NULL) {
+    list = list->parent;
+  }
 }
 
 void step() {

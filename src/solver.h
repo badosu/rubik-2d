@@ -26,3 +26,5 @@ board_node *init_node(int **board);
 list *head;
 
 list *frontier;
+
+void list_rewind(list *list);

@@ -29,7 +29,9 @@ int main(int argc, char *argv[]) {
 
   head = malloc(sizeof(list*));
   head->node = initial_node;
-  frontier = head;
+
+  frontier = malloc(sizeof(list*));
+  frontier->node = initial_node;
 
   while (command != QUIT) {
     command = getch();
@@ -63,6 +65,4 @@ void initialize_window() {
 
   printw("WELCOME TO BADOSU's rubik-2d solver!\n");
   printw("   Press n to iterate, q to quit\n");
-  getch();
-  clear();
 }
