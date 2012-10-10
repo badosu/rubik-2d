@@ -12,63 +12,47 @@ int ***get_neighbours(int **board) {
   return neighbours;
 }
 
-int cost_of(int **board) {
-  return board[0][0];
-}
-
-void step_into(board_node *current_node) {
+void expand_frontier() {
   int i;
-  board_node *best_node;
-
-  int ***neighbours = get_neighbours(current_node->board);
-  board_node **nodes = malloc(4*sizeof(board_node*));
-
-  print_node(current_node, "Current");
+  int ***neighbours = get_neighbours(head->node->board);
 
   for(i=0; i<4; i++) {
-    int **neighbour = neighbours[i];
-    if (neighbour == NULL) {
+    board_node *neighbour;
+
+    if (neighbours[i] == NULL) {
+      free(neighbours[i]);
       continue;
     }
-    nodes[i] = malloc(sizeof(board_node));
-    nodes[i]->board = neighbour;
-    nodes[i]->exhausted = 0;
-    current_heuristic(nodes[i]);
-    print_node(nodes[i], "Neighbour");
-    refresh();
+
+    neighbour = init_node(neighbours[i]);
+    frontier_push(neighbour);
   }
+}
 
-  while(1) {
-    command = getch();
-    clear();
-    if (command == QUIT) {
-      printw("\nPress any key to quit");
-      return;
-    }
-    else if (command == NEXT) {
-      break;
-    }
+board_node *init_node(int **board) {
+  board_node *node = malloc(sizeof(board_node*));
+  node = malloc(sizeof(board_node));
+  node->board = board;
+  node->exhausted = 0;
+  current_heuristic(node);
+  return node;
+}
 
-    printw("   Press n to iterate, q to quit\n");
-  }
+void frontier_pop() {
+}
 
-  best_node = best_node_of(nodes);
+void frontier_push(board_node *node) {
+}
 
-  while (command != QUIT) {
-    best_node = best_node_of(nodes);
-    step_into(best_node);
-    if (best_node->distance == 0) {
-      best_node->exhausted = 0;
-      break;
-    }
-  }
+void print_path() {
+}
 
-  for(i=0; i<4; i++) {
-    free(neighbours[i]);
-    if (nodes[i]->exhausted) {
-      free(nodes[i]);
-    }
-  }
+void step() {
+  expand_frontier();
+
+  frontier_pop();
+
+  print_path();
 }
 
 board_node* best_node_of(board_node **nodes) {

@@ -27,7 +27,24 @@ int main(int argc, char *argv[]) {
   initial_node->board = initial_board;
   current_heuristic(initial_node);
 
-  step_into(initial_node);
+  head = malloc(sizeof(list*));
+  head->node = initial_node;
+  frontier = head;
+
+  while (command != QUIT) {
+    command = getch();
+    clear();
+
+    if (command == QUIT) {
+      printw("\nPress any key to quit");
+    }
+    else if (command == NEXT) {
+      step();
+    }
+    else {
+      printw("   Press n to iterate, q to quit\n");
+    }
+  }
 
   free_board(initial_board);
 

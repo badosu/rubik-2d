@@ -6,17 +6,23 @@ struct board_node {
 };
 
 struct board_list {
-  board_node node;
+  board_node *node;
+  struct board_list *parent;
   struct board_list *next;
 };
 
-int cost_of(int **board);
-
 int ***get_neighbours(int **board);
 
-board_node* best_node_of(board_node **nodes);
+void step();
 
-void step_into(board_node *current_node);
+void expand_frontier();
 
-board_node *initial_node;
-list current_list;
+void frontier_pop();
+
+void frontier_push(board_node *node);
+
+board_node *init_node(int **board);
+
+list *head;
+
+list *frontier;
