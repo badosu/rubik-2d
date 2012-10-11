@@ -1,17 +1,17 @@
 #include "rubik-2d.h"
 
 int main(int argc, char *argv[]) {
+  board_node *initial_node;
   char *initial_file = "initial_state";
   char *goal_file =    "goal_state";
-  int **initial_board = get_board(initial_file);
 
+  int **initial_board = get_board(initial_file);
   if (initial_board == NULL) {
     printw("Could'nt read %s", initial_file);
     return 1;
   }
 
   goal_board = get_board(goal_file);
-
   if (goal_board == NULL) {
     printw("Could'nt read %s", goal_file);
     return 1;
@@ -20,18 +20,12 @@ int main(int argc, char *argv[]) {
   initialize_window();
 
   initialize_heuristics();
+
   current_heuristic = heuristics[SIMPLE_HEURISTIC];
 
-  initial_node = malloc(sizeof(board_node));
-  initial_node->exhausted = 0;
-  initial_node->board = initial_board;
-  current_heuristic(initial_node);
+  initial_node = init_node(initial_board);
 
-  head = malloc(sizeof(list*));
-  head->node = initial_node;
-
-  frontier = malloc(sizeof(list*));
-  frontier->node = initial_node;
+  frontier = init_item(initial_node);
 
   while (command != QUIT) {
     command = getch();

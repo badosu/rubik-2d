@@ -1,5 +1,13 @@
 #include "rubik-2d.h"
 
+void step() {
+  expand_frontier();
+
+  frontier_pop();
+
+  print_path();
+}
+
 board_node **get_neighbours(board_node *board) {
   int i;
   char *DIRECTIONS[4] = {UP, DOWN, LEFT, RIGHT};
@@ -16,9 +24,7 @@ void expand_frontier() {
   int i;
   board_node **neighbours;
 
-  list_rewind(frontier);
-
-  neighbours = get_neighbours(frontier->node);
+  neighbours = get_neighbours(get_head()->node);
 
   for(i=0; i<4; i++) {
     board_node *neighbour = neighbours[i];
@@ -32,55 +38,45 @@ void expand_frontier() {
   }
 }
 
-board_node *init_node(int **board) {
-  board_node *node = malloc(sizeof(board_node*));
-  node = malloc(sizeof(board_node));
-  node->board = copy_board(board);
-  node->exhausted = 0;
-  current_heuristic(node);
-  return node;
-}
-
 void frontier_pop() {
-  list_rewind(frontier);
-  head = clone_list(frontier);
-  frontier->parent = NULL;
+  get_head();
+  frontier->prev = NULL;
   frontier = frontier->next;
 }
 
-list *clone_list(list *o_list) {
-  list *cloned_list = malloc(sizeof(list*));
-  cloned_list->node = o_list->node;
-  cloned_list->parent = o_list->parent;
-  cloned_list->next = o_list->next;
-  return cloned_list;
-}
-
 void frontier_push(board_node *node) {
-  list *new_item;
+  list *item = init_item(node);
 
-  new_item = malloc(sizeof(list));
-  new_item->node = node;
-  new_item->parent = frontier;
-  new_item->next = frontier->next;
+  get_head();
 
-  if (frontier->next != NULL) {
-    frontier->next->parent = new_item;
+  while(frontier->next != NULL) {
+    board_node *l_node = frontier->node;
+    if (l_node->cost < node->cost) {
+      break;
+    }
+    frontier = frontier->next;
   }
-  frontier->next = new_item;
+
+  item->next = frontier;
+  item->prev = frontier->prev;
+
+  if (frontier->prev != NULL) {
+    frontier->prev->next = item;
+  }
+  frontier->prev = item;
+
+  frontier = item;
 
   list_rewind(frontier);
 }
 
 void print_path() {
-  list_rewind(head);
-  print_node(head->node, "Initial State");
-  while (head->next != NULL) {
-    head = head->next;
-    print_node(head->node, "Step");
+  get_head();
+  print_node(frontier->node, "Initial State");
+  while (frontier->prev != NULL) {
+    frontier = frontier->prev;
+    print_node(frontier->node, "Step");
   }
-
-  print_node(frontier->node, "Current State");
 }
 
 int list_fforward(list *list) {
@@ -94,30 +90,35 @@ int list_fforward(list *list) {
 
 int list_rewind(list *list) {
   int i = 0;
-  while(list->parent != NULL) {
-    list = list->parent;
+
+  if (list == NULL) {
+    return i;
+  }
+
+  while(list->prev != NULL) {
+    list = list->prev;
     i++;
   }
   return i;
 }
 
-void step() {
-  expand_frontier();
-
-  frontier_pop();
-
-  print_path();
+list *get_head() {
+  list_rewind(frontier);
+  return frontier;
 }
 
-board_node* best_node_of(board_node **nodes) {
-  int i;
-  board_node *node = NULL;
-  for(i=0; i<4; i++) {
-    if (node == NULL || (nodes[i] != NULL && node->exhausted == 0
-        && nodes[i]->cost < node->cost)) {
-      node = nodes[i];
-    }
-  }
-  node->exhausted = 1;
+list *init_item(board_node *node) {
+  list *item = malloc(sizeof(list));
+  item->node = node;
+  item->parent = get_head();
+  current_heuristic(item);
+
+  return item;
+}
+
+board_node *init_node(int **board) {
+  board_node *node = malloc(sizeof(board_node));
+  node = malloc(sizeof(board_node));
+  node->board = copy_board(board);
   return node;
 }

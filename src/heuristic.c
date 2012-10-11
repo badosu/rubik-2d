@@ -6,10 +6,12 @@ void initialize_heuristics() {
 
 int simple_distance(int **board, int **other_board);
 
-int simple_heuristic(board_node *node) {
-  int path = simple_distance(initial_node->board, node->board);
-  node->distance = simple_distance(node->board, goal_board);
-  node->cost = node->distance + path;
+int simple_heuristic(list *item) {
+  list *parent = item->parent;
+  board_node *node = item->node;
+  node->distance = parent == NULL ? 0 : parent->node->distance + 1;
+  node->heuristic = simple_distance(node->board, goal_board);
+  node->cost = node->distance + node->heuristic;
   return node->cost;
 }
 
